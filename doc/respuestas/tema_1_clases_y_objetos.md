@@ -40,9 +40,10 @@ La programación modular, es una evolución directa de la estructurada. Se basa 
 
 ## 5. ¿Qué es una clase? ¿Es lo mismo que un objeto? ¿Qué es una instancia? ¿Todos los lenguajes orientados a objetos manejan el concepto de clase?
 
-### Respuesta
-
-
+- Clase: Molde que define el estado y el comportamiento. Ej: Coche (marca, año).
+- No es lo mismo que una clase.
+- Objetos o instancias: Realizaciones concretas en ejecución de una clase. Ej: Mercedes 2009 (vendrían siendo 2 instancias de "Coche")
+- No todos, por ejemplo en Javascript no existen 
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**? 
 
 ### Respuesta
@@ -50,13 +51,31 @@ La programación modular, es una evolución directa de la estructurada. Se basa 
 
 ## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
 
-### Respuesta
-
+- ¿Qué es un método? Cualquiera de las funciones definidas dentro de una clase, estos métodos son los que conforman esos comportamientos de esa clase.
+- La sobrecarga de métodos: Es la posibilidad de crear métodos dentro de una clase con el mismo nombre pero cambiendo el tipo y o número de parámetros.
 
 ## 8. Ejemplo mínimo de clase en Java, que se llame Punto, con dos atributos, x e y, con un método que se llame `calculaDistanciaAOrigen`, que calcule la distancia a la posición 0,0. Por sencillez, los atributos deben tener visibilidad por defecto. Crea además un ejemplo de uso con una instancia y uso del método
 
-### Respuesta
+class Punto{
+    int x;
+    int y;
+        double calcularDistanciaOrigen(struct Punto p){
+            return sqrt(x*x + y*y);
+        }
+}
+class Ejercicio8{
+    
+    public static void main(String[] args) {
+        
+        Punto miPunto = new Punto();
+        System.out.println("Introduce los puntos x y luego el y");
 
+        x = miPunto.nextInt();
+        y = miPunto.nextInt();
+
+        double resultado = miPunto.calcularDistanciaOrigen();
+    }
+}
 
 ## 9. ¿Cuál es el punto de entrada en un programa en Java? ¿Qué es `static` y para qué vale? ¿Sólo se emplea para ese método `main`? ¿Para qué se combina con `final`?
 
