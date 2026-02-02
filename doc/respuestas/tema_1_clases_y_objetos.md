@@ -17,24 +17,26 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. ¿Cuáles son las cuatro características básicas de la programación orientada a objetos? Describe brevemente cada una
 
-- Abstracción: Se basa en identificar un objeto ignorando caracteristicas y comportamietos de este.
-- Encapsulamiento: 
+- Abstracción: Se basa en identificar un objeto ignorando caracteristicas complejas y comportamietos de este. Basicamente simplifica lo que es para mejor entendimiento.
+- Encapsulamiento: Oculta el estado interno del objeto para protegerlo de cualquier acceso externo. Se basa en la capacidad de agrupar datos y métodos que actuan sobre una clase
 - Herencia: Se basa en la creación de clases nuevas a partir de clases existentes.
 - Polimorfismo: Se basa en la capacidad de cada objeto de distintas clases para responder de manera distinta a un mismo mensaje.
 
 
 ## 2. Cita cuatro lenguajes populares que permitan la programación orientada a objetos
 
-### Respuesta
-
+C++, Python, JavaScript y Java.
 
 ## 3. Los paradigmas anteriores a la POO, ¿Qué es la **programación estructurada**? y, todavía mejor, ¿Qué es la **programación modular**?
 
-### Respuesta
+La programación estructurada, se basa en dividir el programa en bloques lógicos y secuenciales. Se centra en algoritmos y el flujo de control.
+La programación modular, es una evolución directa de la estructurada. Se basa en la división del programa en partes pequeñas llamadas módulos, estos lo hacen más manejable y pequeñas.
 
 ## 4. ¿Qué tres elementos definen a un objeto en programación orientada a objetos?
 
-### Respuesta
+- Identidad: Todo objeto tiene identidad única. (Subdirección de memoria)
+- Estado: Está definido por Atributos. El Estado es el valor que en ese momento se tenga para ese atributo. El estado es el valor de sus atributos.
+- Comportamiento: Se define a través de los Métodos. Funciones que pueden hacer y pueden modificar el propio estado.
 
 ## 5. ¿Qué es una clase? ¿Es lo mismo que un objeto? ¿Qué es una instancia? ¿Todos los lenguajes orientados a objetos manejan el concepto de clase?
 
