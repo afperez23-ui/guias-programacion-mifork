@@ -43,11 +43,18 @@ La programación modular, es una evolución directa de la estructurada. Se basa 
 - Clase: Molde que define el estado y el comportamiento. Ej: Coche (marca, año).
 - No es lo mismo que una clase.
 - Objetos o instancias: Realizaciones concretas en ejecución de una clase. Ej: Mercedes 2009 (vendrían siendo 2 instancias de "Coche")
-- No todos, por ejemplo en Javascript no existen 
+- No todos, por ejemplo en Javascript no existen.
+
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**? 
 
 -Los objetos se almacenan exclusivamente en el área de memoria llamada Heap.
 -No es igual, por ejemplo en C se le permite al usuario decidir entre crear un objeto en el Stack o en el Heap, mientras que en Java se crea automaticamente en el heap y no permite su creación en el Stack.
+_Ventajas del Heap:
+    -La memoria es dinámica, lo se decide lo que ocupa tiempo de ejecución.
+    -La vida de los objetos del heap no depende de la vida de la función que los crea
+_Problemas del Heap:
+    -Hay que encargarse de liberar memoria no usada del heap-> ·Manual (dificil y propenso a bugs) ·Con recolector de basura (Mal rendimiento)
+
 - La colección de basura se produce mediante el recolectro de basura el cual se dedica a eliminar todo objeto en el heap en desuso para liberar RAm.
 
 ## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
@@ -56,7 +63,7 @@ La programación modular, es una evolución directa de la estructurada. Se basa 
 - La sobrecarga de métodos: Es la posibilidad de crear métodos dentro de una clase con el mismo nombre pero cambiendo el tipo y o número de parámetros.
 
 ## 8. Ejemplo mínimo de clase en Java, que se llame Punto, con dos atributos, x e y, con un método que se llame `calculaDistanciaAOrigen`, que calcule la distancia a la posición 0,0. Por sencillez, los atributos deben tener visibilidad por defecto. Crea además un ejemplo de uso con una instancia y uso del método
-
+```java
 class Punto{
     int x;
     int y;
@@ -77,40 +84,99 @@ class Ejercicio8{
         double resultado = miPunto.calcularDistanciaOrigen();
     }
 }
-
+```
 ## 9. ¿Cuál es el punto de entrada en un programa en Java? ¿Qué es `static` y para qué vale? ¿Sólo se emplea para ese método `main`? ¿Para qué se combina con `final`?
 
-### Respuesta
+- El punto de entrada de un programa en Java sería el main.
+- La palabra clave static significa que el método pertenece a la clase en sí, no a una instancia específica de esa clase.
+- Static no solo es único de main. También se usa para, por ejemplo, variables estaticas que no interesa cambiar en otros métodos.
+- El final hace que no se pueda modificar un objeto. Entonces si pones que un objeto es final static estarías creando una constante.
 
 ## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la **máquina virtual**? ¿Qué es el *byte-code* y los ficheros `.class`?
 
-### Respuesta
+- Guardamos un texto en un .java (texto legible para el humano), el javac lo traduce a Byte-code y lo guard en un .class. Después la JVM (Tiempo de ejecución) compila a lenguaje real del PC sobre la marcha.
+
 
 
 ## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un **constructor**? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos
 
-### Respuesta
+- El 'new' permite reservar un espacio de memoria para guardar un objeto.
+- Inicializa los atributos de la clase para que el objeto no empiece vacío.
+```java
 
-
+public class Empleado{
+    String DNI;
+    String apellidos;
+    String Nombre;
+    int edad;
+    public Empleados(String DNI, String apellidos, String nombre, int edad){
+        this.DNI = DNI;
+        this.apellidos = apellidos;  
+        this.nombre = nombre;
+        this.edad = edad;
+  }
+  public static void main(String args[]){
+    System.out.println("Empleado: "+nombre+ ", " +apellidos+ ". \nEdad:"+edad+"\nDNI: "+DNI);
+  }
+}
+```
 ## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`
 
-### Respuesta
+- La referencia this hace referencia a la instancia actual de la clase.
+- No, dependiendo el lenguaje esta puede variar. Por ejemplo en Python se usa self en vez de this.
+```java
 
+- public class Punto(){
 
+    int x;
+    int y;
+
+        public Punto(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+}
+class Ejercicio11{
+    public static void main(String args[]);
+
+    System.out.println("Punto en: " + this.x + ", " + this.y);
+}
+```
 ## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado
+```java
+- public class Punto(){
 
-### Respuesta
+    int x;
+    int y;
 
+        public Punto(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+        public double distancia(Punto punto2){
+            double px = this.x-punto2.x
+            double py = this.y*punto2.y
+            return Math sqrt( px*px + py*py);
+        }
+}
+class Ejercicio11{
+    public static void main(String args[]);
 
+    Punto p1 = new Punto(0,4);
+    Punto p2 = new Punto(2,3);
+    double di = p1.distancia(p2); 
+    System.out.println("La distancia es: " +di);
+}
+```
 ## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
-### Respuesta
+- En java todo se pasa por copia, cuando copias Punto a un método, java copia la referencia. Esto afecta los cambios. (Los primitivos se pasan por copia, mientras que los objetos por copia de referencia).
+- Si pasas un int, lo que ocurre es un paso por copia (valor) del dato puro, y el resultado es totalmente distinto al del objeto Punto
 
 
 ## 15. ¿Qué es el método `toString()` en Java? ¿Existe en otros lenguajes? Pon un ejemplo de `toString()` en la clase `Punto` en Java
 
-### Respuesta
-
+- toString()
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
 
@@ -119,5 +185,23 @@ class Ejercicio8{
 
 
 ## 17. Quitemos un poco de magia a todo esto: ¿Como se podría “emular”, con `struct` en C, la clase `Punto`, con su función para calcular la distancia al origen? ¿Qué ha pasado con `this`?
+```C
+#include <stdio.h>
+#include <math.h>
 
-### Respuesta
+struct Punto {
+    int x;
+    int y;
+};
+
+double distanciaAlOrigen(struct Punto *p) {
+    return sqrt((p->x * p->x) + (p->y * p->y));
+}
+
+int main() {
+    struct Punto miPunto = {3, 4};
+    double d = distanciaAlOrigen(&miPunto);
+    cout << ;
+    return 0;
+}
+```
