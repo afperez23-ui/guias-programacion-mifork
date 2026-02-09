@@ -46,8 +46,9 @@ La programación modular, es una evolución directa de la estructurada. Se basa 
 - No todos, por ejemplo en Javascript no existen 
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**? 
 
-### Respuesta
-
+-Los objetos se almacenan exclusivamente en el área de memoria llamada Heap.
+-No es igual, por ejemplo en C se le permite al usuario decidir entre crear un objeto en el Stack o en el Heap, mientras que en Java se crea automaticamente en el heap y no permite su creación en el Stack.
+- La colección de basura se produce mediante el recolectro de basura el cual se dedica a eliminar todo objeto en el heap en desuso para liberar RAm.
 
 ## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
 
