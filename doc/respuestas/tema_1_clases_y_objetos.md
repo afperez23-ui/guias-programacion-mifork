@@ -176,12 +176,37 @@ class Ejercicio11{
 
 ## 15. ¿Qué es el método `toString()` en Java? ¿Existe en otros lenguajes? Pon un ejemplo de `toString()` en la clase `Punto` en Java
 
-- toString()
+- En Java, todos los objetos, sin excepción, heredan de la clase madre Object. Esta clase ya trae un método toString() por defecto. El toString() pasa una salida que daría una dirección de memoria a un valor legible y comprensible para el humano.
+- No existe el toString() en si, pero si otros métodos que hacen lo mismo. 
+```java
+
+public class Punto {
+    int x;
+    int y;
+
+    public Punto(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public String toString() {
+        return "(" + this.x + ", " + this.y + ")";
+    }
+}
+
+class Ejercicio15 {
+    public static void main(String[] args) {
+        Punto p = new Punto(5, 12);
+
+            System.out.println("La ubicación actual es: " + p); 
+    }
+}
+
+```
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
 
-
-### Respuesta
+- En C, un struct solo puede contener datos (variables). Si quieres hacer algo con esos datos, tienes que crear una función externa y pasarle el struct como argumento.
+- Comportamiento(Métodos), Encapsulamiento, Identidad, Ciclo de vida y Herencia y polimorfismo.
 
 
 ## 17. Quitemos un poco de magia a todo esto: ¿Como se podría “emular”, con `struct` en C, la clase `Punto`, con su función para calcular la distancia al origen? ¿Qué ha pasado con `this`?
@@ -205,3 +230,5 @@ int main() {
     return 0;
 }
 ```
+
+- En C no existe e método 'this', en su lugar se usan punteros. 
