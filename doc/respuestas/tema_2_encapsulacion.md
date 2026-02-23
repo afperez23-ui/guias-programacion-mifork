@@ -99,28 +99,87 @@ setter - Modifica el valor de un objeto privado.
 
 ## 10. Cuando nos referimos a que la ocultación de información mejora la "seguridad" del programa, ¿nos referimos a que no pueda ser "hackeado"?
 
-### Respuesta
+No, nos referimos a intentar reducir errores de programacióm
 
 
 ## 11. ¿Qué diferencia hay entre **miembro de instancia** y **miembro de clase**? ¿Los miembros de clase también se pueden ocultar?
+Miembro ( métodos o atributos)
 
-### Respuesta
-
+Miembros de clase: Asociados a la clase compartidas, no existe el this
+Miembro de istancia: - accede siempre a una instancia.
 
 ## 12. Brevemente: ¿Tiene sentido que los constructores sean privados?
 
-### Respuesta
-
+Sí, Quiero crear objetos solo a través de métodos factoría (Uso de Métodos Factoría: Al hacer el constructor privado, obligas a los demás programadores a usar métodos estáticos con nombres descriptivos).
+La clase solo tiene miembros de clase.
+Controlo el número de instancias que se crean.
 
 ## 13. ¿Cómo se indican los **miembros de clase** en Java? Pon un ejemplo, en la clase `Punto` definida anteriormente, para que incluya miembros de clase que permitan saber cuáles son los valores `x` e `y` máximos que se han establecido en todos los puntos que se hayan creado hasta el momento.
 
-### Respuesta
+```java
+public class Punto{
+    private double x;
+    private double y;
 
+    private static MAX_X = Double.NEGATIVE_INFINITY;
+    private static MAX_Y = Double.NEGATIVE_INFINITY;
+
+        public staticPunto(double x, double y){
+         this.x = x;
+         this.y = y;
+         if(x > MAX_X){
+            MAX_X = Y;
+         }
+         if(y > MAX_Y){
+            MAX_Y = y;
+         }
+    }
+    public double calcularDistanciaOrigen(){
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+    }
+    double distanciaPuntoA(Punto otro){
+        double dx = this.x - otro.x;
+        double dx = this.x - otro.x;
+    return Math.sqrt(dx*dx+dy*dy);
+    }
+}
+```
 
 ## 14. Como sería un método factoría dentro de la clase `Punto` para construir un `Punto` a partir de dos coordenadas, pero que las redondee al entero más cercano. Escribe sólo el código del método, no toda la clase ¿Has usado `static`? 
 
-### Respuesta
+```java
+public class Punto{
+    private double x;
+    private double y;
 
+    private static MAX_X = Double.NEGATIVE_INFINITY;
+    private static MAX_Y = Double.NEGATIVE_INFINITY;
+
+        public staticPunto(double x, double y){
+         this.x = x;
+         this.y = y;
+         if(x > MAX_X){
+            MAX_X = Y;
+         }
+         if(y > MAX_Y){
+            MAX_Y = y;
+         }
+    }
+    public double calcularDistanciaOrigen(){
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+    }
+    
+    static Punto nuevoPuntoconRedondeo(double x, double y){
+        return new Punto(Math.round(x),Math.round(y))
+    }
+
+    double distanciaPuntoA(Punto otro){
+        double dx = this.x - otro.x;
+        double dx = this.x - otro.x;
+    return Math.sqrt(dx*dx+dy*dy);
+    }
+}
+```
 
 ## 15. Cambia la implementación de `Punto`. En vez de dos `double`, emplea un array interno de dos posiciones, intentando no modificar la interfaz pública de la clase.
 
