@@ -243,6 +243,8 @@ public class Punto{
 
 - Por identidad usando el operador == o por contenido usando el operador .equals().
 - Es un método que todas las clases heredan de la clase base Object. Su propósito es permitir que el programador defina qué significa que dos objetos sean "iguales".
+- La implementación original en la clase Object compara por identidad. Esto significa que, si no se sobrescribe, el método equals se comporta igual que el operador ==, devolviendo true solo si ambas referencias apuntan al mismo objeto físico en memoria.
+- Los String siempre se deben comparar utilizando el método .equals(). Esto asegura que se compare el texto carácter por carácter y no la ubicación en memoria, ya que == podría devolver false.
 
 ## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers? 
 
