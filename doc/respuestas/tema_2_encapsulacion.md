@@ -188,18 +188,20 @@ public class Punto{
 
 ## 16. Si un atributo va a tener un método "getter" y "setter" públicos, ¿no es mejor declararlo público? ¿Cuál es la convención más habitual sobre los atributos, que sean públicos o privados? ¿Tiene esto algo que ver con las "invariantes de clase"?
 
-### Respuesta
-
+- La convención casi universal en la Programación Orientada a Objetos es que los atributos deben ser privados y la interacción con ellos debe realizarse exclusivamente a través de métodos públicos. A este principio se le conoce como encapsulamiento u ocultación de la información.
+- Privados siempre (como mencioné antes la POO dice q sean privados).
+- Sí, las invariantes de clase son reglas que aseguran que el estado de un objeto sea válido. Al declarar los atributos como privados, se evita que el código externo los modifique libremente y rompa estas reglas.
 
 ## 17. ¿Qué significa que una clase sea **inmutable**? ¿qué es un método modificador? ¿Un método modificador es siempre un "setter"? ¿Tiene ventajas que una clase sea inmutable?
 
-### Respuesta
-
+- Inmutable cuando su estado no puede cambiar una vez que el objeto ha sido creado.
+- Un método modificador es aquel que modifica el estado interno de un objeto.
+- No siempre es un setter, cualquier método que modifique atributos es un modificador
+- Sí tiene, seguridad en hilos, Al no poder cambiar, varios hilos pueden acceder al objeto simultáneamente sin riesgo de corrupción de datos o condiciones de carrera. Son más simples,
 
 ## 18. ¿Es recomendable incluir métodos "setter" siempre y como convención?
 
-### Respuesta
-
+- No, ya que rompen el encapsulamiento, dificultan la inmutabilidad y podría provocar que el objeto tenga valores invalidos.
 
 ## 19. ¿La clase `String` en Java es mutable o inmutable? ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
 
@@ -208,7 +210,7 @@ public class Punto{
 
 ## 20. En POO ¿Cómo se comparan objetos de una misma clase? ¿Por su contenido o por su identidad? ¿Qué es el método equals en Java? ¿Qué hace por defecto? ¿Cómo se deben comparar dos cadenas en Java? 
 
-### Respuesta
+- Por identidad usando el operador == o por contenido usando el operador .equals().
 
 
 ## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers? 
