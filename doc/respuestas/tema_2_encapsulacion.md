@@ -182,9 +182,40 @@ public class Punto{
 ```
 
 ## 15. Cambia la implementación de `Punto`. En vez de dos `double`, emplea un array interno de dos posiciones, intentando no modificar la interfaz pública de la clase.
+```java
+public class Punto{
+    private double[] coordenada = new double[2]; 
+    private double x;
+    private double y;
 
-### Respuesta
+    private static MAX_X = Double.NEGATIVE_INFINITY;
+    private static MAX_Y = Double.NEGATIVE_INFINITY;
 
+        public staticPunto(double x, double y){
+         this.coordenada[0] = x;
+         this.coordenada[1] = y;
+         if(x > MAX_X){
+            MAX_X = Y;
+         }
+         if(y > MAX_Y){
+            MAX_Y = y;
+         }
+    }
+    public double calcularDistanciaOrigen(){
+        return Math.sqrt(Math.pow(this.coordenada[0], 2) + Math.pow(this.coordenada[1], 2));
+    }
+    
+    static Punto nuevoPuntoconRedondeo(double x, double y){
+        return new Punto(Math.round(x),Math.round(y))
+    }
+
+    double distanciaPuntoA(Punto otro){
+        double dx = this.coordenada[0] - otro.coordenada[0];
+        double dx = this.coordenada[1] - otro.coordenada[1];
+    return Math.sqrt(dx*dx+dy*dy);
+    }
+}
+```
 
 ## 16. Si un atributo va a tener un método "getter" y "setter" públicos, ¿no es mejor declararlo público? ¿Cuál es la convención más habitual sobre los atributos, que sean públicos o privados? ¿Tiene esto algo que ver con las "invariantes de clase"?
 
@@ -211,7 +242,7 @@ public class Punto{
 ## 20. En POO ¿Cómo se comparan objetos de una misma clase? ¿Por su contenido o por su identidad? ¿Qué es el método equals en Java? ¿Qué hace por defecto? ¿Cómo se deben comparar dos cadenas en Java? 
 
 - Por identidad usando el operador == o por contenido usando el operador .equals().
-
+- Es un método que todas las clases heredan de la clase base Object. Su propósito es permitir que el programador defina qué significa que dos objetos sean "iguales".
 
 ## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers? 
 
