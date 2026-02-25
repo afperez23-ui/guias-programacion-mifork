@@ -228,7 +228,7 @@ public class Punto{
 - Inmutable cuando su estado no puede cambiar una vez que el objeto ha sido creado.
 - Un método modificador es aquel que modifica el estado interno de un objeto.
 - No siempre es un setter, cualquier método que modifique atributos es un modificador
-- Sí tiene, seguridad en hilos, Al no poder cambiar, varios hilos pueden acceder al objeto simultáneamente sin riesgo de corrupción de datos o condiciones de carrera. Son más simples,
+- Sí, al no poder cambiar, varios hilos pueden acceder al objeto simultáneamente sin riesgo de corrupción de datos o condiciones de carrera. Por no decir que son más simples y más fáciles para el debugging
 
 ## 18. ¿Es recomendable incluir métodos "setter" siempre y como convención?
 
@@ -236,8 +236,9 @@ public class Punto{
 
 ## 19. ¿La clase `String` en Java es mutable o inmutable? ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
 
-### Respuesta
-
+- La clase String en java es inmutable, por ende su contenido no puede ser modificado.
+- Basicamente se reserva espacio para el objeto String, ahí se copia el contenido de la cadena A y el de la cadena B "jutandolas" con el operador + y el garbage collector se encarga de eliminar todo lo que no se usa.
+- Concatenar demasiados objetos temporales en memoria es muy ineficaz. Por eso se suele usar mejor el StringBuilder ya que evita realizar todas esas copias en memoria.
 
 ## 20. En POO ¿Cómo se comparan objetos de una misma clase? ¿Por su contenido o por su identidad? ¿Qué es el método equals en Java? ¿Qué hace por defecto? ¿Cómo se deben comparar dos cadenas en Java? 
 
@@ -248,8 +249,9 @@ public class Punto{
 
 ## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers? 
 
-### Respuesta
-
+- En lenguajes como Java existen 2 tipos: Primitivos y los Wrapper, las cuales son objetos que encapsulan un tipo primitivo para que este pueda ser tratado como un objeto (Integer).
+- Las estructuras de datos como ArrayList o HashMap solo pueden guardar objetos. No puedes hacer un ArrayList<int>, debes usar ArrayList<Integer>. También presenta el valor nulo como parte de ellos, a diferencia de los int que siempre que son creados se les asigna el 0 por defecto.
+- 
 
 ## 22. ¿En POO qué es un **tipo de dato enumerado**? ¿En Java, un tipo de dato enumerado es una clase? ¿Qué ventajas tienen en términos de encapsulación los enumerados en Java?
 
