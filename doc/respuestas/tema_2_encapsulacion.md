@@ -228,7 +228,7 @@ public class Punto{
 - Inmutable cuando su estado no puede cambiar una vez que el objeto ha sido creado.
 - Un método modificador es aquel que modifica el estado interno de un objeto.
 - No siempre es un setter, cualquier método que modifique atributos es un modificador
-- Sí, al no poder cambiar, varios hilos pueden acceder al objeto simultáneamente sin riesgo de corrupción de datos o condiciones de carrera. Por no decir que son más simples y más fáciles para el debugging
+- Sí, al no poder cambiar, varios hilos pueden acceder al objeto simultáneamente sin riesgo de corrupción de datos o condiciones de carrera. Por no decir que son más simples y más fáciles para el debugging.
 
 ## 18. ¿Es recomendable incluir métodos "setter" siempre y como convención?
 
@@ -251,18 +251,87 @@ public class Punto{
 
 - En lenguajes como Java existen 2 tipos: Primitivos y los Wrapper, las cuales son objetos que encapsulan un tipo primitivo para que este pueda ser tratado como un objeto (Integer).
 - Las estructuras de datos como ArrayList o HashMap solo pueden guardar objetos. No puedes hacer un ArrayList<int>, debes usar ArrayList<Integer>. También presenta el valor nulo como parte de ellos, a diferencia de los int que siempre que son creados se les asigna el 0 por defecto.
-- 
+- No. Esta es una distinción de diseño (depende si es un lenguaje Híbrido o uno Puro).
 
 ## 22. ¿En POO qué es un **tipo de dato enumerado**? ¿En Java, un tipo de dato enumerado es una clase? ¿Qué ventajas tienen en términos de encapsulación los enumerados en Java?
 
-### Respuesta
-
+- Sí. A diferencia de C++ donde un enum es básicamente un int con alias.
+- El uso de enums en Java potencia la encapsulación y la robustez del diseño de software, cuyas instancias son constantes predefinidas, estáticas y finales, permitiendo así incluir atributos, constructores y métodos.
+- Los enumerados en Java potencian la encapsulación al permitir que las constantes actúen como objetos completos que agrupan su propio estado y comportamiento, restringiendo la creación de nuevas instancias mediante constructores privados y garantizando la seguridad de tipos en tiempo de compilación.
 
 ## 23. Crea un tipo enumerado en Java que se llame `Mes`, con doce posibles instancias y que además proporcione métodos para obtener cuántos días tiene ese mes, el ordinal de ese mes en el año (1-12), empleando atributos privados y constructores del tipo enumerado.
+```java
+public enum Mes {
+    ENERO(31, 1), FEBRERO(28, 2), MARZO(31, 3), ABRIL(30, 4),
+    MAYO(31, 5), JUNIO(30, 6), JULIO(31, 7), AGOSTO(31, 8),
+    SEPTIEMBRE(30, 9), OCTUBRE(31, 10), NOVIEMBRE(30, 11), DICIEMBRE(31, 12);
 
-### Respuesta
+    private int dias;
+    private int ordinal;
 
+    // Constructor del tipo enumerado
+    Mes(int dias, int ordinal) {
+        this.dias = dias;
+        this.ordinal = ordinal;
+    }
+
+    public int getDias() {
+        return dias;
+    }
+
+    public int getOrdinal() {
+        return ordinal;
+    }
+}
+
+```
 
 ## 24. Añade a la clase `Mes` del ejercicio anterior cuatro métodos para devolver si ese mes tiene algunos días de invierno, primavera, verano u otoño, indicando con un booleano el hemisferio (norte o sur, parámetro `enHemisferioNorte`). Es decir: `esDePrimavera(boolean esHemisferioNorte)`, `esDeVerano(boolean esHemisferioNorte)`, `esDeOtoño(boolean esHemisferioNorte)`, `esDeInvierno(boolean esHemisferioNorte)`
+```java
+public enum Mes {
+    ENERO(31, 1), FEBRERO(28, 2), MARZO(31, 3), ABRIL(30, 4),
+    MAYO(31, 5), JUNIO(30, 6), JULIO(31, 7), AGOSTO(31, 8),
+    SEPTIEMBRE(30, 9), OCTUBRE(31, 10), NOVIEMBRE(30, 11), DICIEMBRE(31, 12);
 
-### Respuesta
+    private int dias;
+    private int ordinal;
+
+    Mes(int dias, int ordinal) {
+        this.dias = dias;
+        this.ordinal = ordinal;
+    }
+
+    public int getDias() {
+        return dias;
+    }
+
+    public int getOrdinal() {
+        return ordinal;
+    }
+
+    public boolean esDeInvierno(boolean enHemisferioNorte) {
+        if (enHemisferioNorte) {
+            return this == DICIEMBRE || this == ENERO || this == FEBRERO || this == MARZO;
+        } else {
+            return this == JUNIO || this == JULIO || this == AGOSTO || this == SEPTIEMBRE;
+        }
+    }
+
+    public boolean esDePrimavera(boolean enHemisferioNorte) {
+        if (enHemisferioNorte) {
+            return this == MARZO || this == ABRIL || this == MAYO || this == JUNIO;
+        } else {
+            return this == SEPTIEMBRE || this == OCTUBRE || this == NOVIEMBRE || this == DICIEMBRE;
+        }
+    }
+
+    public boolean esDeVerano(boolean enHemisferioNorte) {
+        // El verano en el norte coincide con el invierno en el sur
+        return esDeInvierno(!enHemisferioNorte);
+    }
+
+    public boolean esDeOtoño(boolean enHemisferioNorte) {
+        return esDePrimavera(!enHemisferioNorte);
+    }
+}
+```
