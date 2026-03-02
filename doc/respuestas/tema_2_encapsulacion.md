@@ -253,9 +253,11 @@ public class Punto{
 - Las estructuras de datos como ArrayList o HashMap solo pueden guardar objetos. No puedes hacer un ArrayList<int>, debes usar ArrayList<Integer>. También presenta el valor nulo como parte de ellos, a diferencia de los int que siempre que son creados se les asigna el 0 por defecto.
 - No. Esta es una distinción de diseño (depende si es un lenguaje Híbrido o uno Puro).
 
+Ventajas: Tienen métodos útiles, Pueden ser usados en contextos donde se necesiten objetos: Ej: List<Integer>
+
 ## 22. ¿En POO qué es un **tipo de dato enumerado**? ¿En Java, un tipo de dato enumerado es una clase? ¿Qué ventajas tienen en términos de encapsulación los enumerados en Java?
 
-- Sí. A diferencia de C++ donde un enum es básicamente un int con alias.
+- Es un tipo cuyos valores son finitos y conocidos de antemano. Pero también es una clase.
 - El uso de enums en Java potencia la encapsulación y la robustez del diseño de software, cuyas instancias son constantes predefinidas, estáticas y finales, permitiendo así incluir atributos, constructores y métodos.
 - Los enumerados en Java potencian la encapsulación al permitir que las constantes actúen como objetos completos que agrupan su propio estado y comportamiento, restringiendo la creación de nuevas instancias mediante constructores privados y garantizando la seguridad de tipos en tiempo de compilación.
 
