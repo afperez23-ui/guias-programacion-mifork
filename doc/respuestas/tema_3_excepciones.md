@@ -33,10 +33,31 @@ float raiz (float num){
 
 - Objetivos para implementar funciones: *Validación de precondiciones* (Garantizar que la función solo opere con datos válidos. Si los argumentos son incorrectos, se "lanza" (throw) la excepción.), *Separación de lógica*(mezcla código lógico con errores manuales (retornar -1)) y Delegación de errores (Permite que la función informe sobre un fallo que no le renta resolver)
 
+    try catch
+
 ## 3. Reescribe el mismo ejemplo de raiz, pero en Java, metiendo ese método en una clase `Calculadora` y llama a dicho método desde el método `main`, mostrando cómo se puede controlar desde fuera.
 
-### Respuesta
-
+```java
+class Calculadora{
+    static float raiz(float num){
+        if(num < 0.0){
+            throw new IlegalArgumentException("num negativo");
+        }
+        return Math.sqrt(num);
+    }
+}
+class App{
+    public static void main(String[] args){
+        float num = leerDato();
+        try{
+            float resultado = Calculadora.raiz(num);
+            sout("Raiz: "+ resultado);
+        }catch(IlegalArgumentException){
+            sout("No se pudo calcular");
+        }
+    }
+}
+```
 
 ## 4. ¿Qué es **"lanzar"** una excepción? ¿Qué es **"controlar"** o **"capturar"** una excepción? ¿Qué es que se **"propague"** una excepción? ¿Qué le va ocurriendo a las funciones en la pila de llamadas por donde se va propagando la excepción? ¿Las funciones que no la controlan se reanudan después de alguna forma? Explica con el mismo ejemplo anterior en Java de la raíz cuadrada.
 
@@ -55,8 +76,10 @@ float raiz (float num){
 
 ## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 
-### Respuesta
-
+- 3 elementos tiene toda excepción:
+    - Mensaje: 
+    - Traza de llamadas:
+    - Opcionalmente, otra excepción de causa: 
 
 ## 8. En Java, sobre el bloque **"try-catch"**, ¿se pueden tener más de un bloque `catch`? ¿cuántos bloques `catch` se ejecutan?
 
