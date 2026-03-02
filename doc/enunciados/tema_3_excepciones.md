@@ -15,14 +15,19 @@ Por favor, escribe en impersonal las respuestas.
 # TEMA 3. Excepciones
 
 ## 1. Empecemos un tema sobre control de errores en lenguajes de programación, con algo básico. En C, donde no existen las excepciones, pongamos un ejemplo de una raíz que toma número flotante positivo. Queremos controlar el error si la función recibe un número negativo. El usuario debe ser informado pero desde fuera de la función `raiz` ¿Cómo indicamos ese error?. Enumera dos opciones diferentes de diseñar, poniendo un ejemplo de código de cada una.
-
-### Respuesta
-
-
+```C
+Devolviendo un valor "especial"
+ej:
+float raiz (float num){
+    if(num < 0.0>){
+        return -1.0;
+    }
+    return sqrt(num);
+}
+```
 ## 2. Brevemente ¿Qué es una **"excepción"**? ¿Con qué objetivo las usa un programador cuando implementa funciones o cuando las llama?
 
-### Respuesta
-
+- Una excepción es una situación atípica
 
 ## 3. Reescribe el mismo ejemplo de raiz, pero en Java, metiendo ese método en una clase `Calculadora` y llama a dicho método desde el método `main`, mostrando cómo se puede controlar desde fuera.
 
