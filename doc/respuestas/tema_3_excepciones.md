@@ -117,8 +117,8 @@ try{
 
 ## 12. ¿Qué es y para qué se usa `throws`? ¿Por qué es alternativa a capturar una excepción controlada?
 
-### Respuesta
-
+- throws es una palabra clave que se usa en la cabecera de un método para indicar que ese método puede lanzar una excepción.
+- En Java, las excepciones controladas (checked exceptions) deben manejarse obligatoriamente de una de estas dos formas: try-catch y throws
 
 ## 13. Pon un ejemplo en Java de firma de método que incluya `throws`, de una función que abre un fichero pero que declara que no le interesa menejar la excepción de si el fichero no existe, sino que se propague hacia arriba. Eso sí, acuérdate del `finally`.
 ```java
