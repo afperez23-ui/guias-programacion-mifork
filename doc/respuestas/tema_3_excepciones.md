@@ -61,18 +61,77 @@ class App{
 
 ## 4. ¿Qué es **"lanzar"** una excepción? ¿Qué es **"controlar"** o **"capturar"** una excepción? ¿Qué es que se **"propague"** una excepción? ¿Qué le va ocurriendo a las funciones en la pila de llamadas por donde se va propagando la excepción? ¿Las funciones que no la controlan se reanudan después de alguna forma? Explica con el mismo ejemplo anterior en Java de la raíz cuadrada.
 
-### Respuesta
+- Lanzar una excepción significa generar un error durante la ejecución del programa para indicar que algo ha salido mal.
+- Controlar una excepción es manejar el error usando try-catch para que el programa no se detenga y pueda reaccionar al problema.
+- Cuando un método lanza una excepción pero no la captura.
+- Cuando una excepción se propaga, va subiendo por la pila de llamadas (call stack) buscando un método que la capture con try-catch.
+        Si un método no captura la excepción, termina inmediatamente.
+        Se elimina de la pila de llamadas.
+        La excepción se pasa al método que lo llamó.
+        El proceso continúa hasta encontrar un catch o llegar al main
 
+- No. Las funciones que no controlan (capturan) la excepción no se reanudan.
+Cuando una excepción se lanza y no se captura en un método, ese método termina inmediatamente y se elimina de la pila de llamadas. La ejecución continúa en el primer catch que encuentre la excepción.
 
+```java
+public class Ejemplo {
+
+    public static double raiz(double x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("Número negativo");
+        }
+        return Math.sqrt(x);
+    }
+
+    public static void calcular() {
+        double r = raiz(-4);
+        System.out.println("Resultado: " + r);
+    }
+
+    public static void main(String[] args) {
+        try {
+            calcular();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: no se puede calcular la raíz de un número negativo");
+        }
+    }
+}
+```
 ## 5. ¿Qué ventajas tiene frente a C, la **"propagación natural"** de las excepciones a través de la pila (*stack*) de llamadas?
 
-### Respuesta
+- Código más limpio y sencillo
+No es necesario comprobar errores después de cada llamada a función (como en C con códigos de error).
+La excepción se propaga automáticamente.
 
+- Separación entre lógica y manejo de errores
+El código principal del programa no se llena de comprobaciones de error; el tratamiento del error se pone en los bloques catch.
+
+- Centralización del manejo de errores
+Un método superior (por ejemplo main) puede encargarse de manejar el error para muchas funciones.
+
+- Menos riesgo de olvidar comprobar errores
+En C es fácil olvidar revisar un valor de retorno. Con excepciones, el error no pasa desapercibido porque se propaga.
+
+- Mayor claridad y mantenimiento
+El flujo del programa es más claro y el código es más fácil de mantener.
 
 ## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? ¿Qué ventajas tiene esto en términos de encapsulación? ¿Podemos entonces crear excepciones personalizadas?
 
-### Respuesta
+- Sí. En Java, las excepciones son objetos que pertenecen a clases que heredan de Exception o Throwable.
+- Al ser objetos, las excepciones pueden encapsular información sobre el error.
+    pueden contener:
 
+    un mensaje descriptivo
+    datos sobre el error
+    métodos para obtener esa información
+
+    Esto permite:
+
+    organizar mejor los errores
+    transportar información detallada del problema
+    manejar errores de forma más estructurada
+    
+- En Java podemos crear nuestras propias clases de excepción heredando de Exception o RuntimeException.
 
 ## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 
