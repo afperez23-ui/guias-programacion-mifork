@@ -107,6 +107,7 @@ Miembro ( métodos o atributos)
 
 Miembros de clase: Asociados a la clase compartidas, no existe el this
 Miembro de istancia: - accede siempre a una instancia.
+Sí, los miembros de clase (aquellos declarados con la palabra clave static) también se pueden ocultar y están sujetos a las mismas reglas de visibilidad y encapsulación que los miembros de instancia.
 
 ## 12. Brevemente: ¿Tiene sentido que los constructores sean privados?
 
