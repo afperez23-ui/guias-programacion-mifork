@@ -261,8 +261,65 @@ public class Departamento {
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
-### Respuesta
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
+public class Departamento {
+    private String nombre;
+    private final List<Profesor> profesores; // Uso de interfaz List
+    private Profesor director;
+
+    public Departamento(String nombre, Profesor directorInicial) {
+        if (directorInicial == null) {
+            throw new IllegalArgumentException("El departamento debe tener un director.");
+        }
+        this.nombre = nombre;
+        this.profesores = new ArrayList<>(); // Implementación concreta
+        
+        añadirProfesor(directorInicial);
+        this.director = directorInicial;
+    }
+
+    public void añadirProfesor(Profesor p) {
+        if (p == null) throw new IllegalArgumentException("Profesor nulo.");
+        // List gestiona el tamaño automáticamente, no necesitamos el límite de 50
+        profesores.add(p);
+    }
+
+    public void eliminarProfesor(int posicion) {
+        if (posicion < 0 || posicion >= profesores.size()) {
+            throw new IndexOutOfBoundsException("Posición inválida.");
+        }
+        
+        if (profesores.get(posicion) == director) {
+            throw new IllegalStateException("No se puede eliminar al director.");
+        }
+        profesores.remove(posicion);
+    }
+
+    public void setDirector(Profesor nuevoDirector) {
+        if (!profesores.contains(nuevoDirector)) {
+            throw new IllegalArgumentException("El director debe pertenecer al departamento.");
+        }
+        this.director = nuevoDirector;
+    }
+
+    public int getNumProfesores() {
+        return profesores.size();
+    }
+
+    public Profesor getProfesor(int posicion) {
+        return profesores.get(posicion);
+    }
+
+    // Solución al problema de devolver la lista completa (ver explicación abajo)
+    public List<Profesor> getProfesores() {
+        return Collections.unmodifiableList(profesores);
+    }
+}
+```
 
 ## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciones, denominadas composiciones recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciones recursivas.
 ```java
@@ -291,4 +348,12 @@ public final class Persona {
 ```
 ## 11. ¿Qué son las relaciones de composición "bidireccionales"? ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
 
-### Respuesta
+- Es una relación donde el contenedor y el contenido se referencian mutuamente, permitiendo navegar entre ellos en ambos sentidos pero obligando a sincronizar manualmente cualquier cambio en ambas partes para evitar incoherencias.
+
+-Para implementar este tipo de relación:
+ 
+-Añadir el vínculo inverso: Crear un atributo en la clase Profesor para almacenar su Departamento.
+
+-Automatizar la unión: Al añadir un profesor al departamento, el código debe actualizar ambos lados (el departamento guarda al profesor y el profesor guarda al departamento) en la misma operación.
+
+-Sincronizar la desconexión: Al eliminar a un profesor, se debe borrar la referencia en el departamento y vaciarla en el profesor para que la información no sea contradictoria.
