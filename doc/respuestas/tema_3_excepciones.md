@@ -31,7 +31,7 @@ float raiz (float num){
 
 - Una excepción es una situación atípica. Errores de entrada (validación), de programación o de entorno (E/S).
 
-- Objetivos para implementar funciones: *Validación de precondiciones* (Garantizar que la función solo opere con datos válidos. Si los argumentos son incorrectos, se "lanza" (throw) la excepción.), *Separación de lógica*(mezcla código lógico con errores manuales (retornar -1)) y Delegación de errores (Permite que la función informe sobre un fallo que no le renta resolver)
+- Objetivos para implementar funciones: *Validación de precondiciones* (Garantizar que la función solo opere con datos válidos. Si los argumentos son incorrectos, se "lanza" (throw) la excepción.), *Separación de lógica* (mezcla código lógico con errores manuales (retornar -1)) y Delegación de errores (Permite que la función informe sobre un fallo que no le renta resolver)
 
     try catch
 

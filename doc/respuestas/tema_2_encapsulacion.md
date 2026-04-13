@@ -16,7 +16,7 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. En Programación Orientada a Objetos (POO), ¿Qué buscan la **encapsulación** y **la ocultación** de información? Enumera brevemente algunas ventajas de la ocultación de información.
 
-    - Encapsulación: Agrupa el conjunto de datos(atributos) y comportamientos(métodos) en una sola clase (Permite ocultar miebros al exterior de la clase). Añade       protección a mi clase.
+    - Encapsulación: Agrupa el conjunto de datos(atributos) y comportamientos(métodos) en una sola clase (Permite ocultar miebros al exterior de la clase). Añade protección a mi clase.
         -Evita que otro código dependa o acceda a partes que no se quiere
         -Garantiza que mi estado interno es válido
         -Facilita poder cambiar partes sin afectar otros
@@ -105,8 +105,8 @@ No, nos referimos a intentar reducir errores de programacióm
 ## 11. ¿Qué diferencia hay entre **miembro de instancia** y **miembro de clase**? ¿Los miembros de clase también se pueden ocultar?
 Miembro ( métodos o atributos)
 
-Miembros de clase: Asociados a la clase compartidas, no existe el this
-Miembro de istancia: - accede siempre a una instancia.
+Miembros de clase: Asociados a la clase compartidas, no existe el this.
+Miembro de istancia: Accede siempre a una instancia.
 Sí, los miembros de clase (aquellos declarados con la palabra clave static) también se pueden ocultar y están sujetos a las mismas reglas de visibilidad y encapsulación que los miembros de instancia.
 
 ## 12. Brevemente: ¿Tiene sentido que los constructores sean privados?
@@ -273,7 +273,7 @@ public enum Mes {
     private int ordinal;
 
     // Constructor del tipo enumerado
-    Mes(int dias, int ordinal) {
+    Mes (int dias, int ordinal) {
         this.dias = dias;
         this.ordinal = ordinal;
     }

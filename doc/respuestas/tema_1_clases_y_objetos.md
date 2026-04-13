@@ -47,15 +47,15 @@ La programación modular, es una evolución directa de la estructurada. Se basa 
 
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**? 
 
--Los objetos se almacenan exclusivamente en el área de memoria llamada Heap.
--No es igual, por ejemplo en C se le permite al usuario decidir entre crear un objeto en el Stack o en el Heap, mientras que en Java se crea automaticamente en el heap y no permite su creación en el Stack.
-_Ventajas del Heap:
+- Los objetos se almacenan exclusivamente en el área de memoria llamada Heap.
+- No es igual, por ejemplo en C se le permite al usuario decidir entre crear un objeto en el Stack o en el Heap, mientras que en Java se crea automaticamente en el heap y no permite su creación en el Stack.
+_ Ventajas del Heap:
     -La memoria es dinámica, lo se decide lo que ocupa tiempo de ejecución.
     -La vida de los objetos del heap no depende de la vida de la función que los crea
-_Problemas del Heap:
-    -Hay que encargarse de liberar memoria no usada del heap-> ·Manual (dificil y propenso a bugs) ·Con recolector de basura (Mal rendimiento)
+_ Problemas del Heap:
+    - Hay que encargarse de liberar memoria no usada del heap-> ·Manual (dificil y propenso a bugs) ·Con recolector de basura (Mal rendimiento)
 
-- La colección de basura se produce mediante el recolectro de basura el cual se dedica a eliminar todo objeto en el heap en desuso para liberar RAm.
+- La colección de basura se produce mediante el recolectro de basura el cual se dedica a eliminar todo objeto en el heap en desuso para liberar RAM.
 
 ## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
 
