@@ -55,24 +55,88 @@ int main() {
 ````
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
+```java
+//Para garantizar la inmutabilidad, los atributos se definen como private final y no se proporcionan métodos setter.
+public final class Punto {
+    private final double x;
+    private final double y;
 
-### Respuesta
+    public Punto(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
+    public double getX() { return x; }
+    public double getY() { return y; }
 
+    // Calcula la distancia a otro objeto Punto
+    public double calcularDistancia(Punto otro) {
+        return Math.sqrt(Math.pow(otro.getX() - this.x, 2) + 
+                         Math.pow(otro.getY() - this.y, 2));
+    }
+}
+
+//Clase Linea (Composición)
+//La clase Linea "tiene-dos" objetos Punto. Al ser sus campos final, la relación entre los puntos es fija desde la construcción.
+public final class Linea {
+    private final Punto p1;
+    private final Punto p2;
+
+    public Linea(Punto p1, Punto p2) {
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+
+    public Punto getP1() { return p1; }
+    public Punto getP2() { return p2; }
+
+    // Delegación: la línea usa el método del punto para hallar su longitud
+    public double calcularLongitud() {
+        return p1.calcularDistancia(p2);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Punto puntoA = new Punto(0, 0);
+        Punto puntoB = new Punto(3, 4);
+        
+        Linea miLinea = new Linea(puntoA, puntoB);
+
+        System.out.println("Longitud de la línea: " + miLinea.calcularLongitud());
+    }
+}
+```
 ## 3. ¿Qué significa la **multiplicidad** en la composición? En el ejemplo anterior, ¿cuál es la multiplicidad entre `Linea` y `Punto`? Indícalo expresando la multiplicidad en ambas direcciones, de `Linea` a `Punto` y de `Punto` a `Linea`.
 
-### Respuesta
+La multiplicidad en el contexto de la composición (y del modelado de clases en general) indica el número de instancias de una clase que pueden estar vinculadas a una instancia de otra clase. Define los límites inferiores y superiores de esta relación (por ejemplo: uno a uno, uno a muchos, etc.).
 
-
+- El concepto de Composición:
+En la composición, el objeto "hijo" (Motor) no tiene sentido de existencia sin el objeto "padre" (Coche). Si el coche se        destruye, el motor también.
 ## 4. ¿Qué significa composición **fuerte** y composición **débil**? ¿Qué consecuencia implica en relación al ciclo de vida de los objetos? Indica a cuál solemos referirnos como **"asociación o agregación"** y a cuál como **"composición"** propiamente.
 
-### Respuesta
+- Composición Fuerte (Composición): El objeto hijo no puede existir sin el padre. Su ciclo de vida está ligado: si el padre se destruye, el hijo también.
 
+- Composición Débil (Agregación): El objeto hijo puede existir independientemente. Si el padre se destruye, el hijo sobrevive.
+
+
+- La consecuencia principal radica en quién controla la creación y destrucción de los objetos:
+
+    Composición (Fuerte): El objeto padre es el dueño absoluto del ciclo de vida del hijo. El hijo nace cuando el padre lo crea y muere cuando el padre es destruido. No tienen vida independiente.
+
+    Agregación (Débil): Los objetos tienen ciclos de vida independientes. El hijo suele crearse fuera del padre y se le asigna después. Si el padre se destruye, el hijo sobrevive y puede vincularse a otros objetos.
+
+-Asociación o Agregación: Se refiere a la composición débil.
+
+-Composición: Se refiere estrictamente a la composición fuerte.
 
 ## 5. Cuando una clase usa a otra al recibirla o devolverla como parámetro en algún método, al hacer `new` dentro de un método, o al usarlas como variables locales, ¿hablamos de composición o de **"dependencia"**?
 
-### Respuesta
+Es una relación de uso en lugar de pertenencia. Se diferencia de la composición porque el objeto no forma parte de la estructura permanente de la clase (no es un atributo), sino que aparece de forma temporal durante la ejecución de un método.
 
+Composición/Agregación: "A tiene un B" (vínculo permanente).
+
+Dependencia: "A usa un B" (vínculo transitorio).
 
 ## 6. En el ejemplo anterior de línea y punto, programa la relación entre `Linea` y `Punto` de dos formas. Una **como composición fuerte**, donde el ciclo de vida de los puntos está ligado al de Linea y otra **como composición débil**, donde no.
 
