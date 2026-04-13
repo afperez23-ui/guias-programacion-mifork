@@ -139,19 +139,125 @@ Composición/Agregación: "A tiene un B" (vínculo permanente).
 Dependencia: "A usa un B" (vínculo transitorio).
 
 ## 6. En el ejemplo anterior de línea y punto, programa la relación entre `Linea` y `Punto` de dos formas. Una **como composición fuerte**, donde el ciclo de vida de los puntos está ligado al de Linea y otra **como composición débil**, donde no.
+```java
+//Composición  fuerte: 
+public class LineaFuerte {
+    private final Punto p1;
+    private final Punto p2;
 
-### Respuesta
+    // Los puntos se crean dentro del constructor
+    public LineaFuerte(double x1, double y1, double x2, double y2) {
+        this.p1 = new Punto(x1, y1);
+        this.p2 = new Punto(x2, y2);
+    }
+}
 
+//Composición débil
+public class LineaDebil {
+    private final Punto p1;
+    private final Punto p2;
+
+    // Los puntos se reciben ya creados
+    public LineaDebil(Punto p1, Punto p2) {
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+}
+```
 
 ## 7. En Java, en la composición fuerte, ¿cuando el contenedor destruye los objetos? No se observa que `Linea` destruya los `Punto` explícitamente, ¿Por qué?
 
-### Respuesta
+- El contenedor no los destruye; simplemente deja de referenciarlos. La destrucción real ocurre cuando el Garbage Collector    detecta que esos objetos ya no son alcanzables desde ninguna parte del programa y libera su memoria.4
 
+- Porque Java carece de un operador de destrucción manual (como free en C o delete en C++). El lenguaje utiliza una gestión de memoria automática, delegando la limpieza de objetos huérfanos al entorno de ejecución de Java (JVM).
 
 ## 8. Pon un ejemplo de composicion débil entre un departamento que tiene varios profesores. Implementa dos composiciones a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
 
-### Respuesta
+```java
 
+public class Departamento {
+    private String nombre;
+    private final Profesor[] profesores;
+    private int numProfesores;
+    private Profesor director;
+
+    public Departamento(String nombre, Profesor directorInicial) {
+        if (directorInicial == null) {
+            throw new IllegalArgumentException("El departamento debe tener un director desde el inicio.");
+        }
+        this.nombre = nombre;
+        this.profesores = new Profesor[50];
+        this.numProfesores = 0;
+        
+        // Invariante: El director debe estar en la lista
+        añadirProfesor(directorInicial);
+        this.director = directorInicial;
+    }
+
+    public void añadirProfesor(Profesor p) {
+        if (p == null) throw new IllegalArgumentException("No se puede añadir un profesor nulo.");
+        if (numProfesores >= 50) throw new IllegalStateException("Departamento completo (máx 50).");
+        
+        profesores[numProfesores] = p;
+        numProfesores++;
+    }
+
+    public void eliminarProfesor(int posicion) {
+        validarPosicion(posicion);
+        Profesor aEliminar = profesores[posicion];
+
+        // Invariante: No se puede eliminar al profesor que es director actual
+        if (aEliminar == director) {
+            throw new IllegalStateException("No se puede eliminar al director. Cambie el director primero.");
+        }
+
+        // Desplazar elementos para no dejar huecos
+        for (int i = posicion; i < numProfesores - 1; i++) {
+            profesores[i] = profesores[i + 1];
+        }
+        profesores[numProfesores - 1] = null;
+        numProfesores--;
+    }
+
+    public void setDirector(Profesor nuevoDirector) {
+        if (nuevoDirector == null) throw new IllegalArgumentException("El director no puede ser nulo.");
+        
+        // Invariante: El director debe ser un profesor del departamento
+        if (!esProfesorDelDepartamento(nuevoDirector)) {
+            throw new IllegalArgumentException("El nuevo director debe pertenecer primero al departamento.");
+        }
+        this.director = nuevoDirector;
+    }
+
+    public int getNumProfesores() {
+        return numProfesores;
+    }
+
+    public Profesor getProfesor(int posicion) {
+        validarPosicion(posicion);
+        return profesores[posicion];
+    }
+
+    public Profesor getDirector() {
+        return director;
+    }
+
+    // Métodos auxiliares privados para mantener la encapsulación e invariantes
+    private void validarPosicion(int posicion) {
+        if (posicion < 0 || posicion >= numProfesores) {
+            throw new IndexOutOfBoundsException("Posición de profesor inválida.");
+        }
+    }
+
+    private boolean esProfesorDelDepartamento(Profesor p) {
+        for (int i = 0; i < numProfesores; i++) {
+            if (profesores[i] == p) return true;
+        }
+        return false;
+    }
+}
+
+```
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
