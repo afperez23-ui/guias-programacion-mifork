@@ -166,25 +166,79 @@ La hay en algunos; En Java: Object, En C++ No hay. Implicación de java: Todos l
 - Que una clase como Soldado puede heredar de más de un padre. En Java no hay. (solo permite el extends).
 
 ## 9. Las excepciones en los lenguajes orientados a objetos son objetos. Por tanto, se pueden crear excepciones personalizadas. Pon un ejemplo en Java de una excepción personalizada (`UsuarioNoEncontradoException`), que sea *no controlada* y que además este compuesto con un `Usuario`, para saber qué `Usuario` dio el problema. Permite además que se pueda incluir la causa, es decir, sobrecarga el constructor para tener una versión que permita añadir la causa subyacente. 
+```java
+public class UsuarioNoEncontradoException extends RuntimeException {
+    private final String usuario; // El usuario que dio el problema
 
-### Respuesta
+    // Constructor simple
+    public UsuarioNoEncontradoException(String mensaje, String usuario) {
+        super(mensaje);
+        this.usuario = usuario;
+    }
 
+    // Constructor sobrecargado con causa (Throwable cause)
+    public UsuarioNoEncontradoException(String mensaje, String usuario, Throwable causa) {
+        super(mensaje, causa);
+        this.usuario = usuario;
+    }
 
+    public String getUsuario() {
+        return usuario;
+    }
+}
+```
 ## 10. Herencia vs. Composición. Se dice que no se debe emplear herencia simplemente por reutilizar código, es decir, que si quiero reutilizar código simplemente, no debo pensar en herencia como primera opción ¿por qué?
 
-### Respuesta
+-Acoplamiento fuerte: La subclase queda encadenada a las decisiones del padre; si el padre cambia, el hijo puede romperse.
 
+-Relación incorrecta: La herencia debe usarse para "ser algo" (un Gato es un Animal), no para "tener algo" (un Coche tiene un Motor).
+
+-Rigidez: En Java solo puedes heredar de una clase. Si heredas para reutilizar código, agotas tu única oportunidad de herencia.
+
+-Encapsulamiento: La herencia expone detalles internos del padre a los hijos, mientras que la composición mantiene cada clase como una "caja negra".
+
+-Conclusión: La composición es más flexible y fácil de mantener. Solo usa herencia cuando exista una relación jerárquica clara.
 
 ## 11. Herencia vs. Composición. Se dice que se debe *"favorecer la composición frente a la herencia"*, ¿por qué?
 
-### Respuesta
+-Se debe a que la herencia es más rígida y peligrosa a largo plazo. Aquí los motivos principales:
 
+-Acoplamiento fuerte: La herencia crea una dependencia total. Si cambias la superclase, puedes romper todas las subclases accidentalmente (problema de la clase base frágil).
+
+-Relación semántica: La herencia debe representar que algo "es un" (un Gato es un Animal). La composición representa que algo "tiene un" (un Coche tiene un Motor), lo cual es mucho más común y natural.
+
+-Flexibilidad en tiempo de ejecución: La herencia es estática (se define al compilar). Con la composición, puedes cambiar el comportamiento de un objeto en pleno funcionamiento intercambiando sus componentes.
+
+-Limitación de Java: Como solo puedes heredar de una clase, usar la herencia solo para "copiar" código te impide heredar de una clase más apropiada después.
+
+En resumen: la composición mantiene las clases independientes y fáciles de modificar; la herencia las encadena para siempre.
 
 ## 12. Herencia vs. Composición. Se dice que la *"herencia rompe la encapsulación"*, ¿a qué se refiere esto?
 
-### Respuesta
-
+- La herencia rompe la encapsulación porque el diseño de una subclase está tan ligado a la implementación interna de su padre que cualquier cambio en los detalles "ocultos" de la superclase puede alterar o romper el comportamiento del hijo de forma impredecible.
 
 ## 13. Pongamos un ejemplo de dos alternativas para lo mismo. Tenemos un `Estudiante` y un `Trabajador`, ambos tienen datos en común: el DNI y el nombre. Modelemos esto de dos formas: uno por herencia, con una superclase `Persona`, y otro con composición, con una clase `DatosPersonales`. Se debe recibir una instancia de `DatosPersonales` en el constructor de la clase `Estudiante` y `Trabajador`.
 
-### Respuesta
+```java
+class Persona {
+    protected String dni;
+    protected String nombre;
+
+    public Persona(String dni, String nombre) {
+        this.dni = dni;
+        this.nombre = nombre;
+    }
+}
+
+class Estudiante extends Persona {
+    public Estudiante(String dni, String nombre) {
+        super(dni, nombre);
+    }
+}
+
+class Trabajador extends Persona {
+    public Trabajador(String dni, String nombre) {
+        super(dni, nombre);
+    }
+}
+```
