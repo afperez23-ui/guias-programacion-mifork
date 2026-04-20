@@ -21,34 +21,123 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 2. ¿En qué consiste la **"ligadura dinámica"** o **"enlace tardío"**? ¿qué relación tiene con el polimorfismo? ¿hay que indicarlos explícitamente al programar o depende esto del lenguaje? Compara C++ y Java. Indicalo después también para Python.
 
-### Respuesta
+- La ligadura dinámica (o dynamic binding) es el mecanismo por el cual el lenguaje decide qué implementación de un método ejecutar durante el tiempo de ejecución, en lugar de hacerlo durante la compilación.
+- La ligadura dinámica es, técnicamente, el motor que hace posible el polimorfismo. Sin ella, el polimorfismo no funcionaría.
+- Java
+En Java, la ligadura dinámica es el comportamiento por defecto. No tienes que indicar nada explícitamente.
 
+Comportamiento: Todos los métodos de instancia son "virtuales" por defecto.
+
+Excepción: Si quieres evitar la ligadura dinámica por razones de seguridad o rendimiento, usas la palabra clave final. Un método final usa ligadura estática.
+
+C++
+En C++, la ligadura dinámica debe indicarse explícitamente.
+
+Comportamiento: Por defecto, C++ utiliza ligadura estática (enlace en compilación) para ser más eficiente.
+
+Palabra clave virtual: Para que un método tenga ligadura dinámica y permita polimorfismo, debes declararlo como virtual en la clase base. Si no lo haces, aunque el hijo sobreescriba el método, se ejecutará el del padre si usas un puntero de la clase base.
+
+Python
+En Python, al ser un lenguaje extremadamente dinámico, la ligadura dinámica es intrínseca y obligatoria.
+
+Comportamiento: No existe la ligadura estática en el sentido tradicional. Todo se resuelve en tiempo de ejecución buscando el atributo o método en el objeto.
+
+Explícito: No hay palabras clave como virtual o final. El polimorfismo es natural gracias al Duck Typing (si camina como pato y grazna como pato, es un pato).
 
 ## 3. Pon un ejemplo sencillo en Java, de un `Soldado`, con un método `saluda`, con dos subclases: `Zapador` y `Artillero`, donde `Zapador` sobreescribe el método `saludar`, sustituyendo por completo su comportamiento. Ilustra el funcionamiento del polimorfismo creando un array de `Soldados` de dos tipos y luego recorriéndolo empleando referencias de tipo `Soldado` y llamando a `saludar`.
+```java
+// Clase base
+class Soldado {
+    public void saludar() {
+        System.out.println("Soldado presentándose.");
+    }
+}
 
-### Respuesta
+// Subclase que sobreescribe el comportamiento
+class Zapador extends Soldado {
+    @Override
+    public void saludar() {
+        System.out.println("Zapador listo: ¡Cuidado con las minas!");
+    }
+}
 
+// Subclase que hereda el comportamiento base
+class Artillero extends Soldado {
+    // No sobreescribe, usa el saludo estándar
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Array de la superclase conteniendo objetos de las subclases (Polimorfismo)
+        Soldado[] peloton = {
+            new Zapador(),
+            new Artillero()
+        };
+
+        // Recorrido usando referencias de tipo Soldado
+        for (Soldado s : peloton) {
+            s.saludar(); 
+        }
+    }
+}
+```
 
 ## 4. Si sobreescribo un método, ¿puedo invocar el método base para trabajar a partir de su resultado? Haz que zapador cambie ligeramente la forma de saludar, que salude de forma normal, tal cual hace el soldado base, pero que además añada un "ZAPADOR A SUS ORDENES" ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
+- La palabra clave
+- La palabra clave que he usado es super.
+super.saludar(): Le indica a Java que busque el método saludar en la jerarquía inmediatamente superior (la superclase) y lo ejecute.
 
-### Respuesta
+- Utilidad: Es fundamental para evitar la duplicación de código. Si la clase Persona ya sabe imprimir el nombre y el DNI, el Estudiante solo tiene que llamar a super para esa parte y luego ocuparse de sus datos específicos (como el número de legajo).
 
+```java
+class Zapador extends Soldado {
+    @Override
+    public void saludar() {
+        super.saludar(); // Invoca el comportamiento de la clase base (Soldado)
+        System.out.println("ZAPADOR A SUS ORDENES"); // Añade funcionalidad extra
+    }
+}
+```
 
 ## 5. Al sobreescribir un método en Java, ¿qué restricciones existen sobre los tipos de los parámetros y el tipo de retorno? ¿Qué diferencia hay entre sobreescritura (*overriding*) y sobrecarga (*overloading*)? ¿Para qué sirve la anotación `@Override` y por qué es recomendable usarla siempre?
 
-### Respuesta
+1. Restricciones de tipos
+Parámetros: Deben ser idénticos. Si cambias uno solo, dejas de sobreescribir.
 
+Retorno: Debe ser igual o un subtipo (retorno covariante). Por ejemplo, si el padre devuelve Animal, el hijo puede devolver Perro.
+
+Acceso: No puedes ser más restrictivo (si el padre es public, el hijo no puede ser private).
+
+2. Sobreescritura vs. Sobrecarga
+Sobreescritura (Overriding): Redefines en el hijo un método del padre con la misma firma para cambiar su lógica. (Ligadura dinámica).
+
+Sobrecarga (Overloading): Creas en la misma clase varios métodos con el mismo nombre pero distintos parámetros. (Ligadura estática).
+
+3. La anotación @Override
+¿Para qué sirve?: Es un seguro. Obliga al compilador a verificar que el método realmente existe en el padre.
+
+¿Por qué usarla?:
+Evita errores: Si tecleas mal el nombre (ej. saludando() por saludar()), el compilador te avisa.
+Documentación: Indica a otros programadores que ese método viene de una jerarquía superior.
 
 ## 6. Entonces, cuando se estudia Java, ¿se emplea el polimorfismo desde el principio? Por ejemplo, sobreescribiendo `toString` o sobreescribiendo `equals`, ¿ya estoy usando polimorfismo?
 
-### Respuesta
-
+- Sí, el polimorfismo se emplea desde el principio porque en Java toda clase hereda de Object, lo que permite que métodos universales como System.out.println() funcionen con cualquier objeto mediante la ligadura dinámica del método toString().
+- Sí, al sobreescribir toString() o equals() ya estás usando polimorfismo, porque permites que métodos generales de Java (como los de impresión o comparación de colecciones) ejecuten tu lógica específica en lugar de la implementación básica de la clase Object.
 
 ## 7. ¿Qué es una **"clase abstracta"**? ¿Qué es un **"método abstracto"**? ¿Puedo crear instancias de una clase abstracta? Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
 
-### Respuesta
+- Es una clase incompleta que no permite crear objetos y sirve como molde base para que sus hijos hereden atributos y definan obligatoriamente ciertos comportamientos.
+- Un método abstracto es una declaración de un método sin implementación (sin cuerpo) que obliga a las subclases a definir su propio código para poder existir.
+- No, no puedes crear instancias de una clase abstracta porque se considera una definición incompleta que solo existe para ser heredada.
 
-
+```java
+abstract class Soldado { // 1. Clase abstracta
+    public void saludar() { System.out.println("Hola"); }
+    
+    public abstract void atacar(); // 2. Método abstracto (sin llaves)
+}
+```
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 
 ### Respuesta
