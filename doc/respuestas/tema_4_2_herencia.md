@@ -16,7 +16,11 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. En orientación a objetos, ¿qué es la **herencia** y su relación con "A es-un B"?. Explica las dos implicaciones principales: (1) **compatibilidad de tipos** y (2) **herencia de estado y comportamiento**. Pon un ejemplo en Java muy sencillo, donde un `Soldado` tiene un `nombre` (privado) y un método `saludar()` que muestra su nombre. Hay dos subtipos: un `Artillero`, que es capaz de disparar cohetes y un `Zapador` que pone minas, ambos heredan el atributo nombre y la capacidad de saludar. Además, y de forma específica, el artillero tiene un número de cohetes y el zapador un número de minas, accesibles mediante "getters" específicos. Respecto a la compatibilidad de tipos, aprovechémosla: crea un array de `Soldado`, mete varios de distinto tipo (son todos compatibles con `Soldado`). Recórrela y que todos te saluden.
 
-### Respuesta
+- La herencia es un mecanismo que permite crear una clase nueva a partir de una existente. La relación "A es-un B" significa que la subclase (A) es una versión especializada de la superclase (B), conservando todas sus características básicas.
+
+- Compatibilidad de tipos (Sustitución): Gracias a la relación "es-un", un objeto de una subclase puede ser tratado legalmente como un objeto de su superclase. Esto permite, por ejemplo, guardar un Artillero en una variable de tipo Soldado.
+
+- Herencia de estado y comportamiento: La subclase adquiere automáticamente los atributos (estado) y los métodos (comportamiento) definidos en la superclase. Esto permite reutilizar código y asegurar que todas las subclases compartan una base común sin tener que reescribirla.
 
 
 ## 2. Al crear los soldados concretos, ¿cuántos constructores se ejecutan y en qué orden? ¿Qué significa `super` dentro de un constructor? Si la clase base no tiene visible el constructor sin parámetros, ¿debo llamar a `super` siempre? 
@@ -44,8 +48,7 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 7. En los lenguajes orientados a objetos ¿hay una **clase base** para todos los objetos? ¿Ocurre en todos los lenguajes? ¿Qué ocurre en Java?
 
-### Respuesta
-
+La hay en algunos; En Java: Object, En C++ No hay.
 
 ## 8. ¿Qué es la **"herencia múltiple"**? ¿Existe en Java herencia múltiple?
 
