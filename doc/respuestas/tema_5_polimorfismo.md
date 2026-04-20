@@ -16,8 +16,8 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. Brevemente, ¿qué es el **"polimorfismo"** y para qué sirve en programación orientada a objetos? ¿qué es la **"sobreescritura"** de métodos?
 
-### Respuesta
-
+- El polimorfismo es la capacidad que tiene una misma referencia de adoptar múltiples formas según el objeto real al que apunte.
+- La sobreescritura (o overriding) es la capacidad de una subclase para proporcionar una implementación específica de un método que ya está definido en su superclase.
 
 ## 2. ¿En qué consiste la **"ligadura dinámica"** o **"enlace tardío"**? ¿qué relación tiene con el polimorfismo? ¿hay que indicarlos explícitamente al programar o depende esto del lenguaje? Compara C++ y Java. Indicalo después también para Python.
 
