@@ -128,33 +128,110 @@ public class EjemploOrdenSuperior {
 
 ## 6. Ahora, invoca `transformar`, con una nueva función lambda directamente en la llamada a `transformar`, por ejemplo, una función lambda que invierta la cadena. Define la función de inversión justo cuando la estás pasando como parámetro.
 
-### Respuesta
+- Esta es una de las mayores ventajas de las lambdas: la capacidad de definir comportamiento "al vuelo" (on-the-fly) sin necesidad de declarar una variable previa.
+```java
+public class EjemploInversion {
+    public static void main(String[] args) {
+        
+        // Invocamos transformar pasando la lógica de inversión "en línea"
+        String resultado = transformar("Españita", s -> new StringBuilder(s).reverse().toString());
 
+        System.out.println(resultado); // "atiñapsE"
+    }
+
+    public static String transformar(String texto, java.util.function.Function<String, String> funcion) {
+        return funcion.apply(texto);
+    }
+}
+```
 
 ## 7. ¿Qué se entiende por cierre o "closure" en el contexto de las funciones lambda? Pon un ejemplo en Java de cómo una función lambda es capaz de acceder a una variable local en el contexto donde fue definida. Modifica el ejemplo anterior, creando otra función lambda para transformar una cadena, pero que lo que haga es concatenar a la cadena de entrada otra cadena que está en una variable local definida fuera de la función lambda.
 
-### Respuesta
+- Un cierre o closure es la capacidad de una función (generalmente una lambda) de "recordar" y acceder al entorno (variables, constantes) en el que fue creada, incluso si ese entorno ya ha terminado su ejecución. La función lambda "envuelve" o captura las variables externas que necesita para funcionar, llevándoselas consigo.
 
+```java
+import java.util.function.Function;
 
+public class EjemploClosure {
+    public static void main(String[] args) {
+        // 1. Variable local definida FUERA de la lambda
+        String prefijo = "Resultado: "; 
+        
+        // 2. Definición de la lambda que "captura" la variable prefijo
+        // Esto es un closure: la lambda depende de una variable externa
+        Function<String, String> concatenarPrefijo = (texto) -> prefijo + texto;
+
+        // 3. Uso del método transformar
+        String mensaje = "La operación ha sido un éxito";
+        String resultadoFinal = transformar(mensaje, concatenarPrefijo);
+
+        System.out.println(resultadoFinal); 
+        // Imprime: "Resultado: La operación ha sido un éxito"
+    }
+
+    public static String transformar(String texto, Function<String, String> funcion) {
+        return funcion.apply(texto);
+    }
+}
+```
 ## 8. Reflexiona: ¿en qué se diferencia entonces una función lambda de los punteros a funciones que hay en C?
 
-### Respuesta
-
+- Esta es una excelente pregunta de fondo, porque aunque ambos sirven para "pasar comportamiento" como si fuera un dato, pertenecen a eras y filosofías de computación totalmente distintas.
 
 ## 9. Devolvamos ahora funciones. Creemos ahora una función que sea capaz de crear funciones "descuento". Una función "descuento", decrementa un porcentaje pasado como parámetro. Por simplicidad, usa `Function<Double, Double>` para su tipo. La función `crearDescuento(porcentaje)`, recibe solo el porcentaje de descuento a aplicar y devuelve la función de descuento. Prueba a crear dos descuentos distintos y aplicarlos a una cantidad. Explica la closure en la función descuento.
 
-### Respuesta
+```java
+import java.util.function.Function;
 
+public class GeneradorDescuentos {
 
+    // Método que fabrica y devuelve una función personalizada
+    public static Function<Double, Double> crearDescuento(double porcentaje) {
+        // La lambda "captura" la variable 'porcentaje'
+        return (precioOriginal) -> precioOriginal * (1 - porcentaje / 100);
+    }
+
+    public static void main(String[] args) {
+        // Creamos dos funciones de descuento distintas
+        Function<Double, Double> descuentoBlackFriday = crearDescuento(50.0);
+        Function<Double, Double> descuentoIVA = crearDescuento(21.0); // En este caso, resta el 21%
+
+        double precioProducto = 100.0;
+
+        // Aplicamos las funciones creadas
+        System.out.println("Precio con 50%: " + descuentoBlackFriday.apply(precioProducto)); // 50.0
+        System.out.println("Precio menos 21%: " + descuentoIVA.apply(precioProducto));      // 79.0
+    }
+}
+```
 ## 10. En Java, que es un lenguaje con comprobación estática de tipos, donde los tipos se declaran, toda función lambda tiene un tipo, que se conoce como **interfaz funcional**. ¿Qué es una **interfaz funcional**? ¿Qué requisitos tiene?
 
-### Respuesta
-
+- En Java, una interfaz funcional es el "molde" o tipo que define la firma de una función lambda. Dado que Java es un lenguaje orientado a objetos, no puede tener funciones "sueltas" flotando por el código; por ello, cada lambda se asocia automáticamente a una interfaz que describa su estructura.
 
 ## 11. Creemos una interfaz funcional a mano. Por ejemplo, define la interfaz funcional del ejemplo que transforma la cadena en otra. Llámale `Transformador`, que define una función que convierte una cadena de texto (`String`) en otra (`String`).
 
-### Respuesta
+- Aunque no pongas la anotación @FunctionalInterface, si la interfaz solo tiene un método abstracto, Java la tratará como funcional. Sin embargo, ponla siempre: es lo que evita que un compañero de equipo (o tú mismo en el futuro) añada un segundo método por error y rompa todas las lambdas que dependían de ella.
 
+```java
+public class EjemploTransformadorManual {
+
+    // Método que acepta nuestra interfaz personalizada
+    public static String ejecutarCambio(String texto, Transformador t) {
+        return t.transformar(texto);
+    }
+
+    public static void main(String[] args) {
+        // Implementación 1: A mayúsculas
+        Transformador aMayusculas = s -> s.toUpperCase();
+
+        // Implementación 2: Inversión (definida en línea)
+        String resultado = ejecutarCambio("Java", s -> new StringBuilder(s).reverse().toString());
+
+        System.out.println("Mayúsculas: " + aMayusculas.transformar("hola")); // HOLA
+        System.out.println("Invertido: " + resultado); // avaJ
+    }
+}
+```
 
 ## 12. Ahora hagamos la interfaz funcional algo más genérica y empleando generics, para que permita definir un `Transformador` de un tipo en otro. Pon un ejemplo de un transformador que redondea un `Double` en un `Integer`.
 
