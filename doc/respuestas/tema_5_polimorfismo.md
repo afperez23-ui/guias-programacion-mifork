@@ -140,19 +140,59 @@ abstract class Soldado { // 1. Clase abstracta
 ```
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 
-### Respuesta
-
+- Prohíbe la herencia, impide que el método sea sobrescrito (overridden) por subclases. Resultado: Las clases hijas heredan el método pero no pueden cambiar su implementación.
+- Mientras que el polimorfismo busca flexibilidad permitiendo múltiples formas de un mismo método o clase, final busca rigidez asegurando una única forma inmutable.
+- Si estas clases no lo fueran, un programador malintencionado podría crear una subclase que parezca un String normal pero que envíe datos a un servidor externo, rompiendo la confianza total en el lenguaje.
 
 ## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? ¿Una clase puede implementar más de una interfaz?
 
-### Respuesta
-
-
+- Las interfaces definen comportamientos comunes entre clases que pueden no tener ninguna relación jerárquica entre sí.
+- Sí, una clase en Java puede implementar múltiples interfaces.
 ## 10. Vamos a poner un ejemplo nuevo con polimorfismo. Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
 
-### Respuesta
+```java
+class Punto2D extends Punto {
+    double x, y;
 
+    Punto2D(double x, double y) { this.x = x; this.y = y; }
+
+    @Override
+    public double calcularDistanciaA(Punto otro) {
+        if (otro instanceof Punto2D) {
+            Punto2D p2 = (Punto2D) otro; // Downcasting
+            return Math.sqrt(Math.pow(p2.x - this.x, 2) + Math.pow(p2.y - this.y, 2));
+        }
+        throw new IllegalArgumentException("El punto debe ser 2D");
+    }
+}
+
+class Punto3D extends Punto {
+    double x, y, z;
+
+    Punto3D(double x, double y, double z) { this.x = x; this.y = y; this.z = z; }
+
+    @Override
+    public double calcularDistanciaA(Punto otro) {
+        if (otro instanceof Punto3D) {
+            Punto3D p3 = (Punto3D) otro; // Downcasting
+            return Math.sqrt(Math.pow(p3.x - this.x, 2) + Math.pow(p3.y - this.y, 2) + Math.pow(p3.z - this.z, 2));
+        }
+        throw new IllegalArgumentException("El punto debe ser 3D");
+    }
+}
+```
 
 ## 11. ¿Qué es la **"herencia de interfaces"** en Java? ¿Existe **"herencia múltiple de interfaces"**? Pon un ejemplo de una interfaz `Fichero` que tenga un método para leer su contenido en forma de `String` y luego dicha interfaz sea extendida por otra que sea `FicheroEscribible` que permita enviar contenido e incluso eliminar el fichero.
 
-### Respuesta
+- La herencia de interfaces ocurre cuando una interfaz extiende a otra interfaz utilizando la palabra clave extends. A diferencia de las clases, donde solo puedes heredar de una, una interfaz puede extender múltiples interfaces a la vez.
+- Sí, existe. En Java, mientras que las clases tienen prohibida la herencia múltiple, las interfaces pueden extender múltiples interfaces simultáneamente.
+```java
+interface Encriptable {
+    void cifrar();
+}
+
+// Una interfaz puede extender VARIAS interfaces a la vez
+interface FicheroSeguro extends FicheroEscribible, Encriptable {
+    boolean verificarIntegridad();
+}
+```
