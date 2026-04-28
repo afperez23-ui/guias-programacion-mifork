@@ -78,18 +78,53 @@ public class EjemploLambda {
 
 ## 3. ¿Qué es el **paradigma funcional**? ¿Por qué a algunos lenguajes orientados a objetos como Java 8, se les llama multi-paradigma? ¿Qué quiere decir que las funciones son "ciudadanos de primera clase"?
 
-### Respuesta
-
+- El paradigma funcional es un estilo de programación basado en la composición de funciones matemáticas puras, que prioriza la inmutabilidad de los datos y evita el uso de estados compartidos o efectos secundarios.
+- Se les llama multi-paradigma porque permiten combinar la estructura clásica de la Programación Orientada a Objetos (POO) con capacidades propias de la Programación Funcional.
+- Que las funciones sean "ciudadanos de primera clase" (o first-class citizens) significa que el lenguaje las trata como a cualquier otra variable o valor (como un int, un String o un objeto).
 
 ## 4. Explica la sintaxis básica de una función lambda en Java.
 
-### Respuesta
+- La sintaxis de una función lambda en Java es muy minimalista y se basa en el operador flecha (->), que separa los parámetros de entrada del cuerpo de la función.
 
+```java
+// 1. Completa
+Comparator<Integer> c1 = (Integer a, Integer b) -> { return a.compareTo(b); };
 
+// 2. Simplificada (Inferencia y expresión única)
+Comparator<Integer> c2 = (a, b) -> a.compareTo(b);
+
+// 3. Referencia de método (Nivel experto)
+Comparator<Integer> c3 = Integer::compareTo;
+```
 ## 5. Ahora recibamos una función como parámetro a un método y la llamaremos desde dentro. Amplia los ejemplos anteriores de Java y JavaScript con un método llamado `transformar`, que reciba un `String` como parámetro y luego una función transformadora como lo es `aMayúsculas` y la invoque desde dentro.
 
-### Respuesta
+- Este es el corazón de la programación funcional: las funciones de orden superior (Higher-Order Functions). Un método de orden superior es simplemente aquel que recibe otra función como argumento para delegarle parte de su lógica.
 
+```java
+import java.util.function.Function;
+
+public class EjemploOrdenSuperior {
+    
+    // Método que recibe el String y la función (comportamiento)
+    public static String transformar(String texto, Function<String, String> funcion) {
+        // En Java, las funciones se invocan con el método .apply()
+        return funcion.apply(texto);
+    }
+
+    public static void main(String[] args) {
+        // Definimos la lambda
+        Function<String, String> aMayusculas = s -> s.toUpperCase();
+
+        // Invocamos el método pasando la lógica por parámetro
+        String resultado = transformar("java es multiplataforma", aMayusculas);
+        
+        System.out.println(resultado); // "JAVA ES MULTIPLATAFORMA"
+        
+        // También podemos pasar la lambda directamente (en línea)
+        System.out.println(transformar("hola", s -> s + "!!!")); // "hola!!!"
+    }
+}
+```
 
 ## 6. Ahora, invoca `transformar`, con una nueva función lambda directamente en la llamada a `transformar`, por ejemplo, una función lambda que invierta la cadena. Define la función de inversión justo cuando la estás pasando como parámetro.
 
