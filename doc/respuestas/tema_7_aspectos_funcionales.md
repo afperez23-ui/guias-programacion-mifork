@@ -17,13 +17,64 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. ¿Qué es un puntero a una función? Pon un ejemplo de código en C, donde se define una función y que reciba una cadena de caracteres como parámetro y devuelva la cadena en mayúsculas. Crea un puntero en una variable local a dicha función llamado `aMayusculas` e invócala con el puntero.
 
-### Respuesta
+- Un puntero a una función es una variable que, en lugar de almacenar el valor de un dato (como un entero o un carácter), almacena la dirección de memoria donde comienza el código ejecutable de una función.
 
+```c
+#include <stdio.h>
+#include <ctype.h>
+
+// 1. Definición de la función
+// Recibe un puntero a char y lo modifica in-place
+char* convertirAMayusculas(char* cadena) {
+    char* inicio = cadena;
+    while (*cadena) {
+        *cadena = toupper((unsigned char)*cadena);
+        cadena++;
+    }
+    return inicio;
+}
+
+int main() {
+    char texto[] = "hola mundo en c";
+
+    // 2. Declaración del puntero a la función
+    // Sintaxis: tipo_retorno (*nombre_puntero)(tipo_parametros)
+    char* (*aMayusculas)(char*);
+
+    // 3. Asignación de la dirección de la función al puntero
+    aMayusculas = &convertirAMayusculas;
+
+    // 4. Invocación de la función a través del puntero
+    // Se puede usar (*aMayusculas)(texto) o simplemente aMayusculas(texto)
+    char* resultado = aMayusculas(texto);
+
+    printf("Resultado: %s\n", resultado);
+
+    return 0;
+}
+```
 
 ## 2. ¿Qué es una **función lambda** en un lenguaje de programación? Pon un ejemplo similar al anterior en Javascript y otro en Java con funciones lambda. Usa una variable local `aMayusculas` para apuntar a la función lambda. Por simplicidad, en Java, emplea `Function<String, String>` para el tipo de la referencia a la función lambda.
 
-### Respuesta
+- Una función lambda (también llamada función anónima) es una función que se define sin un nombre identificador. Se trata de un bloque de código que puede ser tratado como una variable: puede ser asignado a una referencia, pasado como argumento o devuelto por otra función.
 
+```java
+import java.util.function.Function;
+
+public class EjemploLambda {
+    public static void main(String[] args) {
+        // Variable local con el tipo de interfaz funcional
+        // La sintaxis es: (parámetros) -> { cuerpo }
+        Function<String, String> aMayusculas = (cadena) -> cadena.toUpperCase();
+
+        // Invocación usando el método funcional 'apply'
+        String texto = "hola mundo en java";
+        String resultado = aMayusculas.apply(texto);
+
+        System.out.println(resultado); // Muestra: "HOLA MUNDO EN JAVA"
+    }
+}
+```
 
 ## 3. ¿Qué es el **paradigma funcional**? ¿Por qué a algunos lenguajes orientados a objetos como Java 8, se les llama multi-paradigma? ¿Qué quiere decir que las funciones son "ciudadanos de primera clase"?
 
