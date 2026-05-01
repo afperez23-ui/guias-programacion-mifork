@@ -234,33 +234,151 @@ public class EjemploTransformadorManual {
 ```
 
 ## 12. Ahora hagamos la interfaz funcional algo más genérica y empleando generics, para que permita definir un `Transformador` de un tipo en otro. Pon un ejemplo de un transformador que redondea un `Double` en un `Integer`.
+```java
+public class Main {
+    public static void main(String[] args) {
+        
+        // Definimos el transformador: Recibe Double (T) y devuelve Integer (R)
+        Transformador<Double, Integer> redondeador = (valor) -> (int) Math.round(valor);
 
-### Respuesta
+        // Uso del transformador
+        Double miDecimal = 9.75;
+        Integer resultado = redondeador.transformar(miDecimal);
 
-
+        System.out.println("Valor original: " + miDecimal); // 9.75
+        System.out.println("Valor redondeado: " + resultado); // 10
+    }
+}
+```
 ## 13. `Transformador`, en su versión genérica, parece muy útil y reutilizable, hasta el punto de que es igual a una interfaz funcional que ya hay, que es `Function<T, R>`. Muestra las interfaces funcionales predefinidas que hay en Java.
 
-### Respuesta
+```java
+import java.util.function.*;
 
+public class Tienda {
+    public static void main(String[] args) {
+        // 1. Predicado: ¿El producto es caro?
+        Predicate<Double> esCaro = precio -> precio > 50.0;
+
+        // 2. Función: Aplicar impuesto (Transformación)
+        Function<Double, Double> aplicarIVA = precio -> precio * 1.21;
+
+        // 3. Consumidor: Mostrar ticket (Acción)
+        Consumer<Double> imprimirTicket = p -> System.out.println("Total con IVA: " + p);
+
+        // 4. Proveedor: Código de descuento (Generación)
+        Supplier<String> codigoPromo = () -> "PROMO_2026";
+
+        // Uso lógico
+        double miCompra = 60.0;
+        if (esCaro.test(miCompra)) {
+            double finalPrice = aplicarIVA.apply(miCompra);
+            imprimirTicket.accept(finalPrice);
+            System.out.println("Usa este código: " + codigoPromo.get());
+        }
+    }
+}
+```
 
 ## 14. Vamos a ver ejemplos expresivos de funcional en Java. Estudiemos el `List.forEach`, como versión funcional del bucle `for`. Emplea el `forEach` para recorrer una lista de `Integer` y que muestre un mensaje si el entero es positivo.
 
-### Respuesta
+```java
+import java.util.Arrays;
+import java.util.List;
 
+public class EjemploForEach {
+    public static void main(String[] args) {
+        List<Integer> numeros = Arrays.asList(-5, 10, 0, 25, -2);
+
+        // Uso de forEach con una expresión lambda
+        numeros.forEach(n -> {
+            if (n > 0) {
+                System.out.println("El número " + n + " es positivo.");
+            }
+        });
+    }
+}
+```
 ## 15. Repasando el tema de genericidad, fíjate en la firma de `forEach`, ¿por qué se usa `Consumer<? super T>` y no `Consumer<T>`? Explica qué significa **PECS**, y explícalo para el caso de mejorar el ejemplo del método `transformar` la hora de definir el tipo de la función transformadora.
 
-### Respuesta
+- PECS significa Producer Extends, Consumer Super. Es la regla para usar comodines (wildcards) en genéricos:
+Producer Extends (? extends T): Si el objeto produce datos (extraes información de él), se usa extends. Permite leer T o sus hijos.
 
+Consumer Super (? super T): Si el objeto consume datos (le pasas información para que la procese), se usa super. Permite que el consumidor sea de un tipo más genérico (padre) que el dato que le envías.
+
+- Se usa Consumer<? super T> por flexibilidad: permite que un consumidor de un tipo superior (ej. Number) procese elementos de un tipo inferior (ej. Integer).
+
+-
 ## 16. Referencias a métodos. Podemos obtener una referencia a métodos de objetos o clases. Pon un ejemplo en JavaScript y en Java, de una clase `Persona` con un método `saludar`. En el código principal, crea una `Persona` con un nombre, y obtén una referencia a su método `saludar` en una variable local. Invoca `saludar` con esa referencia a su método `saludar`.
 
-### Respuesta
+```java
+class Persona {
+    String nombre;
+    Persona(String n) { this.nombre = n; }
+    void saludar() { System.out.println("Hola, soy " + nombre); }
+}
 
+public class Main {
+    public static void main(String[] args) {
+        Persona p = new Persona("Ana");
+        // Referencia al método de la instancia 'p'
+        Runnable ref = p::saludar; 
+        ref.run(); // Invoca el método
+    }
+}```
 
 ## 17. ¿Qué tipos de referencias a método se pueden hacer en Java? Pon un ejemplo de referencia a método estático, a constructor, a método de instancia de una instancia concreta y a método de instancia sobre cualquier instancia.
 
-### Respuesta
+Método estático: Clase::metodoEstatico
+   - Ejemplo: Double::sum
+Constructor: Clase::new
+   - Ejemplo: ArrayList::new
+Instancia de un objeto concreto: instancia::metodoInstancia
+   - Ejemplo: System.out::println (donde out es la instancia).
+Instancia de un objeto arbitrario de un tipo dado: Clase::metodoInstancia
+   - Ejemplo: String::toUpperCase (se aplica sobre el elemento que reciba).
 
+```java
+import java.util.*;
+import java.util.function.*;
 
+public class EjemploReferencias {
+    public static void main(String[] args) {
+        
+        // 1. Método estático (Math.abs)
+        Function<Integer, Integer> valorAbsoluto = Math::abs;
+
+        // 2. Constructor (ArrayList::new)
+        Supplier<List<String>> creadorLista = ArrayList::new;
+
+        // 3. Instancia de un objeto concreto (System.out::println)
+        Consumer<String> impresor = System.out::println;
+
+        // 4. Instancia de un objeto arbitrario de un tipo dado (String::isEmpty)
+        Predicate<String> esVacia = String::isEmpty;
+
+        // Pruebas
+        impresor.accept("Resultado Raíz: " + valorAbsoluto.apply(-10)); // Usa el 1 y el 3
+        System.out.println("¿Texto vacío?: " + esVacia.test(""));       // Usa el 4
+    }
+}
+```
 ## 18. Otro ejemplo expresivo. Ordena una lista de `Persona`, cada persona tiene un nombre y una edad (de tipo entero). Ordena la lista de `Persona` con `Collections.sort`, pasándole como comparador una expresión lambda que compare la edad de ambas personas y si tienen la misma edad, se ordene por orden alfabético del nombre. Crea dos versiones: Una con la función de comparación hecha manualmente, y otra empleando `Comparator`.
+```java
+- class Persona {
+    String nombre;
+    int edad;
 
-### Respuesta
+    Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+    @Override
+    public String toString() { return nombre + " (" + edad + ")"; }
+}
+// Leído: "Compara por edad y luego por nombre"
+Collections.sort(personas, Comparator
+    .comparingInt((Persona p) -> p.edad)
+    .thenComparing(p -> p.nombre)
+);
+```
